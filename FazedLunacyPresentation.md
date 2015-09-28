@@ -33,11 +33,7 @@ Fazed Lunacy is a site that predicts the full moon phases based on a mathematica
 
 ========================================================
 
-<<<<<<< HEAD
-![alt text](./FazedLunacyPresentation-figure/Logo.png)   
-=======
 ![alt text](https://github.com/alljoy1/Developing-Data-Projects-/tree/master/FazedLunacyPresentation-figure/Logo.png)   
->>>>>>> removed static date test code, activated current date code
 
 To use Fazed Lunacy, simply select a year and month to see when phases occur.  For the current month, the phases are:
 ![plot of chunk unnamed-chunk-1](FazedLunacyPresentation-figure/unnamed-chunk-1-1.png) 
