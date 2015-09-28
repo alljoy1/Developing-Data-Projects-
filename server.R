@@ -1,3 +1,4 @@
+#9:00
 packages<-function(x){
   x<-as.character(match.call()[[2]])
   if (!require(x,character.only=TRUE)){
@@ -110,7 +111,7 @@ shinyServer(function(input, output) {
   output$monthentered <- renderText({input$monthentered})
   output$view <- renderTable({phases(input$yearentered,input$monthentered)})
   output$moonPhased <- renderPlot({
-    plot(phases().allmth$dated, allmth$illum, type='p', pch=20, xlab="Date", ylab="Proportion of Moon Illuminated")
+    plot(allmth$dated, allmth$illum, type='p', pch=20, xlab="Date", ylab="Proportion of Moon Illuminated")
     
     abline(v=fullstart,col = "red")
     mtext("Full", at=fullstart, side=3)
