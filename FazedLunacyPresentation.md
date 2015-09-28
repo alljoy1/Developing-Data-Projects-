@@ -13,7 +13,7 @@ First Slide
 ========================================================
 title: false
 transition: rotate
-![alt text](C:/Data/Coursera/9 DevelopingDataProducts/Week3/Looney/www/Logo.png)
+![alt text](https://github.com/alljoy1/Developing-Data-Projects-/tree/master/FazedLunacyPresentation-figure/Logo.png)
 
 Even before recorded history, the phases of the moon have played a significant role in people's lives.  Full moons in particular instill a feeling of mystery and foreboding.  Some examples from science and folklore:
 - Madness - Full moons were believed to instill and heighten madness
@@ -23,7 +23,7 @@ Even before recorded history, the phases of the moon have played a significant r
 
 ========================================================
 
-![alt text](C:/Data/Coursera/9 DevelopingDataProducts/Week3/Looney/www/Logo.png)   
+![alt text](https://github.com/alljoy1/Developing-Data-Projects-/tree/master/FazedLunacyPresentation-figure/Logo.png)   
 
 Fazed Lunacy is a site that predicts the full moon phases based on a mathematical formula calculated using the statistical programming language 'R'.  The use of this site provides several public safety benefits:
 
@@ -33,16 +33,16 @@ Fazed Lunacy is a site that predicts the full moon phases based on a mathematica
 
 ========================================================
 
-![alt text](C:/Data/Coursera/9 DevelopingDataProducts/Week3/Looney/www/Logo.png)   
+![alt text](./FazedLunacyPresentation-figure/Logo.png)   
 
-To use Fazed Lunacy, simply select a year and month to see when phases occur.  For the current month, the phases are calculated as:
+To use Fazed Lunacy, simply select a year and month to see when phases occur.  For the current month, the phases are:
 ![plot of chunk unnamed-chunk-1](FazedLunacyPresentation-figure/unnamed-chunk-1-1.png) 
 
 ====
 
-![alt text](C:/Data/Coursera/9 DevelopingDataProducts/Week3/Looney/www/Logo.png)   
+![alt text](Logo.png)   
 
 Protect yourself, stimulate the economy or impress your friends and loved ones with your knowledge of lunar events!  Visit the site at the below URL:
 
-[Fazed Lunacy](http://example.com)
+[Fazed Lunacy](https://alljoy1.shinyapps.io/PhasedLoonacy)
 
