@@ -1,3 +1,4 @@
+#9:00
 #install.packages("shiny")
 # setwd("C:/Data/Coursera/9 DevelopingDataProducts/Week3/Looney/")
 require(shiny)
@@ -19,18 +20,17 @@ shinyUI(
       #actionButton("goButton", "Execute"),
       
       #submitButton('ApplyChanges'),
-      sliderInput("monthentered", 
-                  "Select Month of Year (Jan = 1, Dec = 12):", 
-                  min = 1,
-                  max = 12, 
-                  value = as.integer(as.integer(format(Sys.Date(), "%m"))), width = 550)
-    ),
       mainPanel(
-
+          sliderInput("monthentered", 
+                      "Select Month of Year (Jan = 1, Dec = 12):", 
+                      min = 1,
+                      max = 12, 
+                      value = as.integer(as.integer(format(Sys.Date(), "%m"))), width = 600)
+          ),
       
-    plotOutput("moonPhased"),
+     plotOutput("moonPhased"),
       
-     tableOutput("view")
+     tableOutput('view')
   )
 ))
 

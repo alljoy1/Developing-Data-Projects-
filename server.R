@@ -1,4 +1,4 @@
-#
+#9:00
 packages<-function(x){
   x<-as.character(match.call()[[2]])
   if (!require(x,character.only=TRUE)){
@@ -19,45 +19,58 @@ require(shiny)
 # Define server logic required to summarize and view the selected
 # dataset
 shinyServer(function(input, output) {
- 
-  # this function uses the lunar package to calculate phases for the entire year selected 
-  phases<-function(yr){
-   
+  
+  phases<-function(x,y){
+    yr <- x    #"year selected -- replace this with the form value"
+    mth <-y 
+    mth <- as.integer(format(Sys.Date(), "%m"))  # default is current month
+    mindt <-as.Date(paste(yr,mth,'1', sep = "-")) # first day of selected month
+    yrsel <-as.Date(paste(yr,'1-1', sep = "-"))  # first day of selected year
+    
+    #create variable for first day of following month
+    #if month selected = 12, add one to year and use month 1
+    if(mth == 12){
+      yr = yr + 1
+    }
+    
+    if(mth == 12){
+      mth = 1
+    } else {
+      mth = mth + 1
+    }
+    
+    #calculated next month from date selected
+    maxdt <- as.Date(paste(yr,mth,'1', sep = "-"))
+    
     # create a data frame of entire year
     dated<-seq(yrsel, by = "day", length.out = 366)  #max days in year
-
+    
+    # create a data frame of days for the month
+    #dated<-seq(dtsel, by = "day", length.out = 31)  #max days in months
     c<- as.data.frame(dated)
     c<- subset(c,c$dated <= as.Date(paste(yr,'12-31', sep = "-")))  #remove any dates not in same month
+    
     
     # add 2 columns calculated by the functions in the lunar package
     # Phase is the segment of the moon's cycle and illum is the proportion of the moon illuminated (for graph)
     c$Phase<-lunar.phase(c$dated,shift=0,name=8)
     c$illum<-lunar.illumination(c$dated, shift = 0)
     c$month<-month(c$dated)
-
-    return(c)
-  }
- 
-  #this function creates data table for 1st full moon of all months in the year
-  yearphases<-function(allyr){
-    yrFull<-aggregate(dated ~ month + Phase, data = allyr,min)
-    yrFull<-cbind(yrFull,aggregate(dated ~ month + Phase, data = allyr,max))
-    yrFull<-subset(yrFull,yrFull$Phase == 'Full')
-    yrFull[,1]<-as.integer(yrFull[,1])
-    x<-yrFull[,1:2]
-    x$Start<-as.character(yrFull[,3])
-    x$end<-as.character(yrFull[,6])
-    #names(yrFull) <- c("Month","Phase","Start","End")
-    return(as.data.frame(x))
-  }
-  
-  #this function sets up plot for input month
-  monthphases<-function(allmth, mthentr){
+    
+    # two subsets required -- full moon phases for year and all dates for month
+    allyr <-subset(c,c$Phase == 'Full')
+    allmth <-subset(c,c$dated >= mindt & c$dated < maxdt)
+    
+    # get full moon min and max dates for each month
+    yrFull<-aggregate(dated ~ month, data = allyr,min)
+    yrFull<-cbind(yrFull,aggregate(dated ~ month, data = allyr,max))
+    names(yrFull) <- c("month","Start","month2","End")
+    
     #subset month dates into phases
-    fullmoon <-subset(allmth,allmth$Phase == 'Full' & allmth$month == as.integer(mthentr))
-    newmoon <-subset(allmth,allmth$Phase == 'New' & allmth$month == as.integer(mthentr) )
-    q1halfmoon <- subset(allmth,allmth$Phase == 'First quarter' & allmth$month == as.integer(mthentr))
-    q2halfmoon <- subset(allmth,allmth$Phase == 'Last quarter' & allmth$month == as.integer(mthentr))
+    fullmoon <-subset(allmth,allmth$Phase == 'Full')
+    newmoon <-subset(allmth,allmth$Phase == 'New' )
+    q1halfmoon <- subset(allmth,allmth$Phase == 'First quarter' )
+    q2halfmoon <- subset(allmth,allmth$Phase == 'Last quarter')
     
     fullstart <- as.Date(fullmoon$dated[1:1],'%y-%m-%d')
     
@@ -86,8 +99,19 @@ shinyServer(function(input, output) {
     q2start <- as.Date(q2halfmoon$dated[1:1],'%y-%m-%d')
     q2halfmoon <-subset(q2halfmoon,q2halfmoon$dated < q2start + 5)  #remove any 2nd Q2
     q2end <- as.Date(q2halfmoon$dated[NROW(q2halfmoon)],'%y-%m-%d')
-
-    lunarplot<-plot(allmth$dated, allmth$illum, type='p', pch=20, xlab="Date", ylab="Proportion of Moon Illuminated")
+    x<-yrFull[,1:2]
+    x$end<-yrFull[,4]
+    x
+    
+  }
+  
+  
+  output$yearentered <- renderText({
+    input$yearentered})
+  output$monthentered <- renderText({input$monthentered})
+  output$view <- renderTable({phases(input$yearentered,input$monthentered)})
+  output$moonPhased <- renderPlot({
+    plot(allmth$dated, allmth$illum, type='p', pch=20, xlab="Date", ylab="Proportion of Moon Illuminated")
     
     abline(v=fullstart,col = "red")
     mtext("Full", at=fullstart, side=3)
@@ -110,21 +134,6 @@ shinyServer(function(input, output) {
       mtext("Full", at=bluestart, side=3)
       abline(v=blueend, col = "red")
     }    
-    
-    return(lunarplot)
-  }
-
-  
-  # two subsets required -- full moon phases for year and all dates for month
-  yrentered<-reactive({as.integer(input$yearentered)})
-  complyr<-reactive({phases(yrentered())})
-  
-
-  output$yearentered <- renderText(input$yearentered)
-  output$monthentered <- renderText(input$monthentered)
-  output$view <- renderTable({yearphases(complyr())})
-  output$moonPhased <- renderPlot({ monthphases(subset(complyr(),complyr()$month ==input$monthentered ), input$monthentered)})
+  })
 
 })
-
-
