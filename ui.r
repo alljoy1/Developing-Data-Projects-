@@ -6,7 +6,7 @@ shinyUI(
  
   fluidPage(
     # Application title
-    titlePanel( img(src="logo.png", height = 150, width = 600)),
+    titlePanel( img(src="Logo.png", height = 100, width = 500)),
     headerPanel(
       h3('An App for Predicting Moon Phases Throughout the Year(s)'),
       br()
@@ -19,18 +19,18 @@ shinyUI(
       #actionButton("goButton", "Execute"),
       
       #submitButton('ApplyChanges'),
-      sliderInput("monthentered", 
+      column(sliderInput("monthentered", 
                   "Select Month of Year (Jan = 1, Dec = 12):", 
                   min = 1,
                   max = 12, 
-                  value = as.integer(as.integer(format(Sys.Date(), "%m"))), width = 550)
+                  value = as.integer(as.integer(format(Sys.Date(), "%m")))),width=8)
     ),
-      mainPanel(
-
-      
-    plotOutput("moonPhased"),
-      
-     tableOutput("view")
+      mainPanel(width = 12,
+    h4('Calculated for year:'),
+    verbatimTextOutput("yearentered"),
+    column(8,h4('Full Moon at Brightest')),
+    column(5, tableOutput("view")),
+    column(7,plotOutput("moonPhased"))
   )
 ))
 

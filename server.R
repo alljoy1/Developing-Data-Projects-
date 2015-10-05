@@ -34,22 +34,25 @@ shinyServer(function(input, output) {
     # Phase is the segment of the moon's cycle and illum is the proportion of the moon illuminated (for graph)
     c$Phase<-lunar.phase(c$dated,shift=0,name=8)
     c$illum<-lunar.illumination(c$dated, shift = 0)
-    c$month<-month(c$dated)
+    c$month<-as.factor(month(c$dated))
 
     return(c)
   }
  
   #this function creates data table for 1st full moon of all months in the year
   yearphases<-function(allyr){
-    yrFull<-aggregate(dated ~ month + Phase, data = allyr,min)
-    yrFull<-cbind(yrFull,aggregate(dated ~ month + Phase, data = allyr,max))
-    yrFull<-subset(yrFull,yrFull$Phase == 'Full')
-    yrFull[,1]<-as.integer(yrFull[,1])
-    x<-yrFull[,1:2]
-    x$Start<-as.character(yrFull[,3])
-    x$end<-as.character(yrFull[,6])
-    #names(yrFull) <- c("Month","Phase","Start","End")
-    return(as.data.frame(x))
+    yrFull<-subset(allyr,allyr$Phase == 'Full')
+    yrFullest<-as.vector(aggregate(illum ~ month, data = yrFull,max)[,2])
+    yrFull<-subset(yrFull,yrFull$illum %in%yrFullest)
+
+    yrFull[,4]<-as.integer(yrFull[,4])
+    names(yrFull[,4])<-"Month"
+    x<-as.data.frame(yrFull[,4])
+    x$Peak<-as.character(yrFull[,1])
+    #x$end<-as.character(yrFull[,6])
+
+    names(x) <- c("Month","Peak")
+    return(x)
   }
   
   #this function sets up plot for input month
@@ -118,12 +121,16 @@ shinyServer(function(input, output) {
   
   # two subsets required -- full moon phases for year and all dates for month
   #yrentered<-reactive({as.integer(input$yearentered)})
-  complyr<-reactive({phases(as.integer(input$yearentered))})
+  complyr<-reactive({if (as.integer(input$yearentered) >=1950 && as.integer(input$yearentered) < 2100) {phases(as.integer(input$yearentered))}
+                      else {phases(as.integer(format(Sys.Date(), "%Y")))}
+            })
+    
   
 
-  output$yearentered <- renderText(input$yearentered)
+  output$yearentered <- renderText({if (as.integer(input$yearentered) >=1950 && as.integer(input$yearentered) < 2100) {as.integer(input$yearentered)}
+    else {as.integer(format(Sys.Date(), "%Y"))}})
   output$monthentered <- renderText(input$monthentered)
-  output$view <- renderTable({yearphases(complyr())})
+  output$view <- renderTable({yearphases(complyr())}, include.rownames=FALSE)
   output$moonPhased <- renderPlot({ monthphases(subset(complyr(),complyr()$month ==input$monthentered ), input$monthentered)})
 
 })
