@@ -3,7 +3,7 @@ Fazed Lunacy Presentation
 
 <small>Forewarned is Forearmed</small>
 
-author: JHS Developing Data Products student
+author: Julie Craze, JHS Developing Data Products student
 
 date: 26-SEP-2015
 
@@ -19,7 +19,7 @@ Even before recorded history, the phases of the moon have played a significant r
 - Madness - Full moons were believed to instill and heighten madness
 - Werewolves - Belief of temporary human transformation into a vicious creature without human cognition or conscience 
 - Extreme tides occur at new moon and full moon
-- Many cultures based their astrological calendars on lunar
+- Many cultures based their astrological calendars on lunar cycles
 
 ========================================================
 
@@ -35,7 +35,7 @@ Fazed Lunacy is a site that predicts the full moon phases based on a mathematica
 
 ![alt text](Logo.png)  
 
-To use Fazed Lunacy, simply select a year and month to see when phases occur.  For the current month, the phases calculate as:
+To use Fazed Lunacy, simply select a year and month to see when phases occur. Calculated moon phases for the current month:
 ```{r, echo=FALSE}
 # if not installed, install packages
 
@@ -56,6 +56,7 @@ require(lunar)
 
 # create date variable for year and month entered
 yr <- as.integer(year(Sys.Date())) ##2015 #--"year selected -- replace this with the form value"
+yr2 <-yr
 mth <- as.integer(month(Sys.Date())) ##7 #--"month selected -- replace this with the form value"
 
 mindt <-as.Date(paste(yr,mth,'1', sep = "-")) # first day of selected month
@@ -82,7 +83,7 @@ dated<-seq(yrsel, by = "day", length.out = 366)  #max days in year
 # create a data frame of days for the month
 #dated<-seq(dtsel, by = "day", length.out = 31)  #max days in months
 c<- as.data.frame(dated)
-c<- subset(c,c$dated <= as.Date(paste(yr,'12-31', sep = "-")))  #remove any dates not in same month
+c<- subset(c,c$dated <= as.Date(paste(yr2,'12-31', sep = "-")))  #remove any dates not in same year
 
 
 # add 2 columns calculated by the functions in the lunar package
@@ -166,5 +167,9 @@ if (NROW(bluemoon) > 0) {
 
 Protect yourself, stimulate the economy or impress your friends and loved ones with your knowledge of lunar events!  Visit the site at the below URL:
 
-[Fazed Lunacy](https://alljoy1.shinyapps.io/PhasedLoonacy)
+[Fazed Lunacy APP](http://alljoy1.shinyapps.io/PhasedLoonacy)
+
+See more information about this app in the readme.md file and see app code in the ui.R and server.R files at the following github repo:
+
+[Fazed Lunacy Repo] (http://github.com/alljoy1/Developing-Data-Projects-)
 
