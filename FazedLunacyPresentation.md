@@ -35,7 +35,7 @@ Fazed Lunacy is a site that predicts the full moon phases based on a mathematica
 
 ![alt text](Logo.png)  
 
-To use Fazed Lunacy, simply select a year and month to see when phases occur. Calculated moon phases for the current month:
+To use Fazed Lunacy, simply select a year and month to see each phase. Calculated moon phases for the current month:
 ![plot of chunk unnamed-chunk-1](FazedLunacyPresentation-figure/unnamed-chunk-1-1.png)
 
 ====
