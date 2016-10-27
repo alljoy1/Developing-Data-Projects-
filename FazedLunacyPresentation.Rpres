@@ -19,7 +19,7 @@ Even before recorded history, the phases of the moon have played a significant r
 - Madness - Full moons were believed to instill and heighten madness
 - Werewolves - Belief of temporary human transformation into a vicious creature without human cognition or conscience 
 - Extreme tides occur at new moon and full moon
-- Many cultures based their astrological calendars on lunar cycles
+- Many cultures based their astrological calendars on lunar
 
 ========================================================
 
@@ -166,9 +166,5 @@ if (NROW(bluemoon) > 0) {
 
 Protect yourself, stimulate the economy or impress your friends and loved ones with your knowledge of lunar events!  Visit the site at the below URL:
 
-[Fazed Lunacy APP](http://alljoy1.shinyapps.io/PhasedLoonacy)
-
-See more information about this app in the readme.md file and see app code in the ui.R and server.R files at the following github repo:
-
-[Fazed Lunacy Repo] (http://github.com/alljoy1/Developing-Data-Projects-)
+[Fazed Lunacy](https://alljoy1.shinyapps.io/PhasedLoonacy)
 
